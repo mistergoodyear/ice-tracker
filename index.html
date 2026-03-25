@@ -1,0 +1,805 @@
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Work+Sans:wght@400;500;600;700&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+/* ICE Detention Tracker — Squarespace embed */
+
+  :root {
+    --cream: #F5F0E9;
+    --charcoal: #1e1a18;
+    --blue-dark: #2e3f4c;
+    --blue-mid: #3a4f5e;
+    --blue-light: #4a5e70;
+    --mid: #7a8f9c;
+    --red: #cc2a2a;
+    --red-light: #e05555;
+    --amber: #c49a20;
+    --green-dark: #2d6640;
+    --content-bg: #F5F0E9;
+    --card-bg: #fff;
+    --text-dark: #2A2420;
+    --text-mid: rgba(42,36,32,0.62);
+    --rule-light: rgba(42,36,32,0.1);
+  }
+  #ict-tracker, #ict-tracker * { box-sizing: border-box; }
+  #ict-tracker { background: var(--charcoal); color: var(--cream); font-family: 'Work Sans', sans-serif; font-size: 14px; line-height: 1.6; }
+
+  /* HEADER */
+  header { padding: 52px 48px 40px; max-width: 1400px; margin: 0 auto; border-bottom: 1px solid rgba(245,240,233,0.08); }
+  .eyebrow { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-light); margin-bottom: 14px; }
+  header h1 { font-family: 'Gloock', serif; font-size: clamp(32px,4.5vw,56px); font-weight: 400; color: var(--cream); line-height: 1.1; margin-bottom: 14px; }
+  header .meta { font-size: 12px; color: rgba(245,240,233,0.38); letter-spacing: 0.01em; }
+
+  /* THEN/NOW */
+  .compare-bar { background: var(--blue-dark); border-bottom: 3px solid #1e2e3a; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); }
+  .compare-block { padding: 44px 48px; border-right: 1px solid rgba(245,240,233,0.07); display: flex; flex-direction: column; gap: 0; }
+  .compare-block:last-child { border-right: none; }
+  .compare-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 18px; }
+  .compare-numbers { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .compare-then { font-family: 'Gloock', serif; font-size: clamp(32px,3.5vw,48px); color: rgba(245,240,233,0.28); line-height: 1; letter-spacing: -0.02em; text-decoration: line-through; text-decoration-color: rgba(245,240,233,0.12); }
+  .compare-arrow { font-size: 18px; color: var(--red-light); font-weight: 700; flex-shrink: 0; }
+  .compare-now { font-family: 'Gloock', serif; font-size: clamp(52px,6vw,80px); color: var(--red-light); line-height: 1; letter-spacing: -0.03em; }
+  .compare-now.amber { color: var(--amber); }
+  .compare-now.white { color: var(--cream); }
+  .compare-label { font-family: 'Work Sans', sans-serif; font-size: 14px; font-weight: 600; color: rgba(245,240,233,0.85); line-height: 1.4; margin-bottom: 8px; }
+  .compare-note { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(245,240,233,0.38); line-height: 1.65; }
+  .compare-note a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+
+  /* RATIO BAND */
+  .ratio-band { background: var(--blue-mid); border-bottom: 3px solid var(--blue-dark); padding: 30px 48px; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 36px; }
+  .ratio-block { display: flex; flex-direction: column; gap: 5px; }
+  .ratio-value { font-family: 'Work Sans', sans-serif; font-weight: 700; font-size: clamp(30px,3vw,44px); color: #fff; line-height: 1; letter-spacing: -0.02em; }
+  .ratio-label { font-family: 'Work Sans', sans-serif; font-size: 11px; font-weight: 500; color: rgba(245,240,233,0.6); line-height: 1.4; text-transform: uppercase; letter-spacing: 0.03em; margin-top: 2px; }
+  .ratio-bar-wrap { height: 3px; background: rgba(245,240,233,0.1); border-radius: 2px; margin: 7px 0 4px; overflow: hidden; }
+  .ratio-bar-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1.6s cubic-bezier(0.16,1,0.3,1); }
+  .ratio-note { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(245,240,233,0.35); line-height: 1.5; }
+
+  /* MEGA ALERT */
+  .mega-alert { background: #1a1210; border-left: 4px solid var(--red); border-top: 1px solid rgba(204,42,42,0.18); border-bottom: 1px solid rgba(204,42,42,0.18); padding: 32px 48px; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
+  .mega-alert-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--red-light); margin-bottom: 10px; }
+  .mega-alert-text { font-family: 'Gloock', serif; font-size: clamp(18px,2.2vw,26px); font-weight: 400; color: var(--cream); line-height: 1.35; }
+  .mega-alert-text strong { color: var(--red-light); }
+  .mega-alert-sub { font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(245,240,233,0.38); margin-top: 10px; line-height: 1.65; }
+  .mega-alert-sub a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+  .mega-stats { display: flex; gap: 28px; flex-shrink: 0; }
+  .mega-stat { text-align: center; display: flex; flex-direction: column; gap: 4px; }
+  .mega-stat-value { font-family: 'Gloock', serif; font-size: 44px; color: var(--red-light); line-height: 1; }
+  .mega-stat-label { font-family: 'DM Mono', monospace; font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(245,240,233,0.35); line-height: 1.4; }
+
+  /* WHO IS DETAINED */
+  .who-bar { background: #252019; border-bottom: 3px solid #1a1612; padding: 40px 48px; max-width: 1400px; margin: 0 auto; }
+  .who-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red-light); margin-bottom: 24px; }
+  .who-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; }
+  .who-block { display: flex; flex-direction: column; gap: 6px; padding-right: 32px; border-right: 1px solid rgba(245,240,233,0.06); }
+  .who-block:last-child { border-right: none; padding-right: 0; }
+  .who-value { font-family: 'Work Sans', sans-serif; font-weight: 700; font-size: clamp(34px,3.5vw,48px); line-height: 1; letter-spacing: -0.02em; }
+  .who-label { font-family: 'Work Sans', sans-serif; font-size: 13px; font-weight: 600; color: rgba(245,240,233,0.8); line-height: 1.4; }
+  .who-note { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(245,240,233,0.35); line-height: 1.6; margin-top: 2px; }
+  .who-note a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+  .who-stated { margin-top: 24px; padding: 14px 18px; background: rgba(245,240,233,0.04); border-left: 2px solid rgba(245,240,233,0.08); font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(245,240,233,0.4); line-height: 1.7; }
+  .who-stated strong { color: rgba(245,240,233,0.65); }
+  .who-stated a { color: #6a9ab0; text-decoration: none; }
+
+  /* MAIN — cream content zone */
+  main { background: var(--content-bg); max-width: 1400px; margin: 0 auto; padding: 44px 48px 80px; color: var(--text-dark); }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-light); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--rule-light); }
+  .filters { display: flex; gap: 10px; margin-bottom: 24px; flex-wrap: wrap; }
+  .filter-btn { font-family: 'Work Sans', sans-serif; font-size: 12px; padding: 6px 16px; border-radius: 2px; border: 1px solid rgba(42,36,32,0.18); background: transparent; color: rgba(42,36,32,0.5); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover, .filter-btn.active { background: var(--blue-light); border-color: var(--blue-light); color: #fff; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--rule-light); border-radius: 3px; box-shadow: 0 1px 6px rgba(42,36,32,0.06); margin-bottom: 16px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--card-bg); }
+  thead th { background: #e6e0d7; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue-light); padding: 12px 16px; text-align: left; font-weight: 400; white-space: nowrap; border-bottom: 1px solid var(--rule-light); }
+  tbody tr { border-bottom: 1px solid rgba(42,36,32,0.05); transition: background 0.1s; }
+  tbody tr:hover { background: rgba(74,94,112,0.04); }
+  tbody tr.hidden { display: none; }
+  td { padding: 12px 16px; vertical-align: top; color: var(--text-mid); line-height: 1.5; }
+  td.facility-name { font-weight: 600; color: var(--text-dark); min-width: 190px; }
+  td.cost { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text-dark); white-space: nowrap; }
+  td.occupancy { font-family: 'DM Mono', monospace; font-size: 12px; }
+  tfoot td { background: #e6e0d7; font-family: 'Work Sans', sans-serif; font-size: 12px; font-weight: 700; color: var(--text-dark); padding: 12px 16px; border-top: 2px solid rgba(42,36,32,0.12); }
+  .tfoot-label { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--blue-light); font-weight: 400; display: block; margin-top: 2px; }
+  .badge { display: inline-block; font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; white-space: nowrap; }
+  .badge-active   { background: rgba(45,102,64,0.1);  color: var(--green-dark); border: 1px solid rgba(45,102,64,0.25); }
+  .badge-over     { background: rgba(204,42,42,0.08); color: var(--red);        border: 1px solid rgba(204,42,42,0.2); }
+  .badge-pending  { background: rgba(74,94,112,0.1);  color: var(--blue-light); border: 1px solid rgba(74,94,112,0.2); }
+  .badge-blocked  { background: rgba(120,90,30,0.1);  color: #7a5a1e;           border: 1px solid rgba(120,90,30,0.2); }
+  .badge-military { background: rgba(70,50,90,0.1);   color: #5c4475;           border: 1px solid rgba(70,50,90,0.2); }
+  .badge-withheld { background: rgba(42,36,32,0.05);  color: rgba(42,36,32,0.38); border: 1px solid rgba(42,36,32,0.1); }
+  .type-mega   { color: var(--red); font-weight: 600; }
+  .type-proc   { color: var(--text-mid); }
+  .type-active { color: var(--text-mid); }
+  .type-mil    { color: #5c4475; }
+  .occ-danger  { color: var(--red) !important; font-weight: 600; }
+  .occ-warn    { color: #7a5a1e !important; }
+  a.src { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--blue-light); text-decoration: none; border-bottom: 1px solid rgba(74,94,112,0.28); padding-bottom: 1px; margin-right: 6px; white-space: nowrap; display: inline-block; margin-bottom: 3px; }
+  a.src:hover { color: var(--blue-dark); }
+
+  /* NOTES */
+  .note { background: rgba(74,94,112,0.07); border-left: 2px solid var(--blue-light); padding: 16px 20px; margin: 20px 0; font-size: 13px; color: var(--text-mid); line-height: 1.7; }
+  .note strong { color: var(--text-dark); font-weight: 600; }
+  .note a { color: var(--blue-light); text-decoration: none; border-bottom: 1px solid rgba(74,94,112,0.28); }
+
+  /* TRANSPARENCY */
+  .transparency { background: rgba(204,42,42,0.05); border-left: 3px solid var(--red); padding: 24px 28px; margin: 28px 0; font-size: 13px; color: var(--text-mid); line-height: 1.8; }
+  .t-title { font-family: 'Work Sans', sans-serif; font-size: 15px; font-weight: 700; color: var(--red); margin-bottom: 18px; display: block; }
+  .transparency strong { color: var(--text-dark); }
+  .transparency a { color: var(--blue-light); text-decoration: none; border-bottom: 1px solid rgba(74,94,112,0.28); }
+  .t-item { margin-bottom: 14px; padding-left: 16px; border-left: 2px solid rgba(204,42,42,0.15); }
+
+  /* SOURCES */
+  .sources-section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--rule-light); }
+  .sources-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(270px,1fr)); gap: 12px; margin-top: 20px; }
+  .source-card { background: var(--card-bg); border: 1px solid var(--rule-light); border-radius: 3px; padding: 14px 16px; }
+  .source-card .outlet { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue-light); margin-bottom: 5px; }
+  .source-card .title  { font-size: 12px; color: var(--text-dark); margin-bottom: 7px; line-height: 1.4; }
+  .source-card a { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--mid); text-decoration: none; }
+  .source-card a:hover { color: var(--text-dark); }
+
+  /* DISCLOSURES */
+  .disclosures-section { margin-top: 56px; padding-top: 32px; border-top: 1px solid var(--rule-light); }
+  .disclosures-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(290px,1fr)); gap: 14px; margin-top: 20px; }
+  .disc-block { background: var(--card-bg); border: 1px solid var(--rule-light); border-radius: 3px; padding: 18px 20px; }
+  .disc-title { font-family: 'DM Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--blue-light); margin-bottom: 10px; }
+  .disc-block p { font-size: 12px; color: var(--text-mid); line-height: 1.7; }
+  .disc-block a { color: var(--blue-light); text-decoration: none; border-bottom: 1px solid rgba(74,94,112,0.28); }
+
+  /* CONTEXT BANDS — shared dark style */
+  .context-band { max-width: 1400px; margin: 0 auto; padding: 40px 48px; border-bottom: 3px solid #1a1612; }
+  .context-band-inner { display: grid; gap: 32px; }
+  .context-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 18px; }
+  .context-hed { font-family: 'Gloock', serif; font-size: clamp(18px,2.2vw,26px); font-weight: 400; color: var(--cream); line-height: 1.35; margin-bottom: 12px; }
+  .context-hed strong { color: var(--red-light); }
+  .context-hed strong.amber { color: var(--amber); }
+  .context-body { font-family: 'Work Sans', sans-serif; font-size: 13px; color: rgba(245,240,233,0.55); line-height: 1.8; }
+  .context-body strong { color: rgba(245,240,233,0.8); }
+  .context-body a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+
+  /* WHY BUILD MORE */
+  .why-band { background: #1d2830; }
+  .why-band .context-eyebrow { color: var(--amber); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .why-col { }
+
+  /* WHO PROFITS */
+  .profits-band { background: #1a1a12; }
+  .profits-band .context-eyebrow { color: #c49a20; }
+  .profits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 4px; }
+  .profit-block { padding-right: 32px; border-right: 1px solid rgba(245,240,233,0.06); }
+  .profit-block:last-child { border-right: none; padding-right: 0; }
+  .profit-value { font-family: 'Gloock', serif; font-size: clamp(32px,3.5vw,48px); line-height: 1; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .profit-label { font-family: 'Work Sans', sans-serif; font-size: 13px; font-weight: 600; color: rgba(245,240,233,0.75); line-height: 1.4; margin-bottom: 6px; }
+  .profit-note { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(245,240,233,0.35); line-height: 1.6; }
+  .profit-note a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+  .profit-quote { margin-top: 24px; padding: 14px 18px; background: rgba(245,240,233,0.04); border-left: 2px solid rgba(196,154,32,0.3); font-family: 'DM Mono', monospace; font-size: 11px; color: rgba(245,240,233,0.45); line-height: 1.7; }
+  .profit-quote strong { color: rgba(245,240,233,0.65); }
+  .profit-quote a { color: #6a9ab0; text-decoration: none; }
+
+  /* ALLIGATOR ALCATRAZ */
+  .alcatraz-band { background: #1a1a10; }
+  .alcatraz-band .context-eyebrow { color: #c49a20; }
+  .alcatraz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .alcatraz-stats { display: flex; flex-direction: column; gap: 20px; }
+  .alc-stat { display: flex; flex-direction: column; gap: 4px; padding-bottom: 20px; border-bottom: 1px solid rgba(245,240,233,0.06); }
+  .alc-stat:last-child { border-bottom: none; padding-bottom: 0; }
+  .alc-value { font-family: 'Work Sans', sans-serif; font-weight: 700; font-size: clamp(28px,3vw,40px); line-height: 1; letter-spacing: -0.02em; }
+  .alc-label { font-family: 'Work Sans', sans-serif; font-size: 12px; font-weight: 600; color: rgba(245,240,233,0.7); line-height: 1.4; }
+  .alc-note { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(245,240,233,0.35); line-height: 1.6; }
+  .alc-note a { color: #6a9ab0; text-decoration: none; border-bottom: 1px solid rgba(106,154,176,0.3); }
+
+  /* GUANTANAMO */
+  .gtmo-band { background: #1a1218; }
+  .gtmo-band .context-eyebrow { color: var(--mid); }
+  .gtmo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+
+  @media (max-width: 960px) {
+    header, main { padding-left: 20px; padding-right: 20px; }
+    .compare-bar, .ratio-band, .mega-alert, .who-bar { padding-left: 20px; padding-right: 20px; }
+    .compare-bar { grid-template-columns: 1fr; }
+    .compare-block { border-right: none; border-bottom: 1px solid rgba(245,240,233,0.07); }
+    .ratio-band { grid-template-columns: 1fr 1fr; }
+    .who-grid { grid-template-columns: 1fr 1fr; }
+    .mega-alert { grid-template-columns: 1fr; }
+    .mega-stats { justify-content: flex-start; }
+  }
+
+/* Force tracker to full width */
+#ict-tracker { display: block; width: 100%; }
+.sqs-block-code { padding: 0 !important; }
+</style>
+
+<div id="ict-tracker">
+
+
+<header>
+  <div class="eyebrow">Data Tracker — Updated March 25, 2026</div>
+  <h1>ICE Detention Expansion<br>Facility Register</h1>
+  <div class="meta">Sources: NPR · Washington Post · Brennan Center · American Immigration Council · TRAC · Cato Institute · Vera Institute · OPB · Bloomberg · FactCheck.org · Poynter</div>
+</header>
+
+<!-- THEN / NOW -->
+<div class="compare-bar">
+  <div class="compare-block">
+    <div class="compare-eyebrow">Detained Population — Jan 2025 → Jan 2026</div>
+    <div class="compare-numbers">
+      <span class="compare-then">37,000</span>
+      <span class="compare-arrow">→</span>
+      <span class="compare-now" data-target="73" data-suffix="K">0</span>
+    </div>
+    <div class="compare-label">People held in ICE detention</div>
+    <div class="compare-note">+84% in 14 months · Peak Jan 16, 2026 · ~68–70K daily average Feb 2026<br><a href="https://www.cbsnews.com/news/ices-detainee-population-record-high-of-73000/" target="_blank">CBS News</a> · <a href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC Feb 2026</a></div>
+  </div>
+  <div class="compare-block">
+    <div class="compare-eyebrow">ICE Detention Funding — Prior Annual → July 2025 Bill</div>
+    <div class="compare-numbers">
+      <span class="compare-then">$3.4B</span>
+      <span class="compare-arrow">→</span>
+      <span class="compare-now amber" data-target="45" data-prefix="$" data-suffix="B">$0B</span>
+    </div>
+    <div class="compare-label">Detention funding — one bill, one year</div>
+    <div class="compare-note">13× the prior annual budget · "One Big Beautiful Bill Act" · July 2025<br><a href="https://www.americanimmigrationcouncil.org/blog/ice-expanding-detention-system/" target="_blank">AIC Feb 2026</a> · <a href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan Center</a></div>
+  </div>
+  <div class="compare-block">
+    <div class="compare-eyebrow">ICE Facility Disclosure — Facilities In Use vs. Acknowledged</div>
+    <div class="compare-numbers">
+      <span class="compare-then">528</span>
+      <span class="compare-arrow">→</span>
+      <span class="compare-now white" data-target="189" data-suffix="">0</span>
+    </div>
+    <div class="compare-label">Facilities ICE publicly acknowledges</div>
+    <div class="compare-note">ICE used 528 facilities Sep 2025 · admitted to 189 · concealed 64%<br><a href="https://www.vera.org/ice-detention-trends" target="_blank">Vera Institute</a> · <a href="https://austinkocher.substack.com/p/show-your-work-the-math-behind-my" target="_blank">Kocher / Syracuse Jan 2026</a></div>
+  </div>
+</div>
+
+<!-- RATIO BAND -->
+<div class="ratio-band">
+  <div class="ratio-block">
+    <span class="ratio-value">73%</span>
+    <span class="ratio-label">of stated 100K goal — but true target is 135K beds by FY2029</span>
+    <div class="ratio-bar-wrap"><div class="ratio-bar-fill" style="width:73%;background:#cc2a2a"></div></div>
+    <span class="ratio-note">68,289 detained · TRAC Feb 7, 2026 · <a href="https://www.americanimmigrationcouncil.org/blog/ice-expanding-detention-system/" style="color:#6a9ab0;text-decoration:none;border-bottom:1px solid rgba(106,154,176,0.3)" target="_blank">AIC: 135K beds funded through FY2029</a></span>
+  </div>
+  <div class="ratio-block">
+    <span class="ratio-value">1.8%</span>
+    <span class="ratio-label">of $38.3B warehouse budget spent</span>
+    <div class="ratio-bar-wrap"><div class="ratio-bar-fill" style="width:1.8%;background:#c49a20"></div></div>
+    <span class="ratio-note">$700M of $38.3B deployed · 9 of 24 sites purchased · <a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" style="color:#6a9ab0;text-decoration:none" target="_blank">AIC Feb 2026</a></span>
+  </div>
+  <div class="ratio-block">
+    <span class="ratio-value">225 + 24</span>
+    <span class="ratio-label">active + confirmed conversions in pipeline</span>
+    <div class="ratio-bar-wrap"><div class="ratio-bar-fill" style="width:90%;background:#4a5e70"></div></div>
+    <span class="ratio-note">225 operating / 249 total confirmed · ICE FY2026 + AIC</span>
+  </div>
+  <div class="ratio-block">
+    <span class="ratio-value">+7%</span>
+    <span class="ratio-label">more removals than Biden's last full year — despite 13× the funding</span>
+    <div class="ratio-bar-wrap"><div class="ratio-bar-fill" style="width:7%;background:#c49a20"></div></div>
+    <span class="ratio-note">290,603 total removals FY2025+FY2026 YTD vs. Biden FY2024 · <a href="https://tracreports.org/reports/767/" style="color:#6a9ab0;text-decoration:none" target="_blank">TRAC</a></span>
+  </div>
+  <div class="ratio-block">
+    <span class="ratio-value">23</span>
+    <span class="ratio-label">deaths in ICE custody since Oct 2025</span>
+    <div class="ratio-bar-wrap"><div class="ratio-bar-fill" style="width:100%;background:#cc2a2a"></div></div>
+    <span class="ratio-note">Deadliest fiscal year since 2004 · includes first homicide in modern ICE detention · <a href="https://www.npr.org/2026/03/10/g-s1-111238/immigration-detention-deaths-custody" style="color:#6a9ab0;text-decoration:none" target="_blank">NPR Mar 10, 2026</a></span>
+  </div>
+</div>
+
+<!-- MEGA ALERT -->
+<div class="mega-alert">
+  <div>
+    <div class="mega-alert-label">⚠ Mega Center Expansion</div>
+    <div class="mega-alert-text">ICE is building <strong>8 mega detention centers</strong> — each holding up to <strong>10,000 people</strong>.<br>Larger than any federal prison. Larger than Guantánamo. Five locations still unknown.</div>
+    <div class="mega-alert-sub">
+      "ICE Detention Reengineering Initiative" · Target completion Sep 30, 2026 · <a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC Feb 2026</a> · <a href="https://www.washingtonpost.com/business/2026/02/13/ice-detention-center-expansion/" target="_blank">Washington Post Feb 2026</a><br>
+      Confirmed sites: Social Circle GA · Socorro TX · Tremont PA · Five sites not publicly disclosed.<br>
+      Total planned capacity across all 8 mega centers: <strong style="color:rgba(245,240,233,0.7)">60,000–80,000 people</strong>
+    </div>
+  </div>
+  <div class="mega-stats">
+    <div class="mega-stat"><span class="mega-stat-value">8</span><span class="mega-stat-label">Planned</span></div>
+    <div class="mega-stat"><span class="mega-stat-value">3</span><span class="mega-stat-label">Purchased</span></div>
+    <div class="mega-stat"><span class="mega-stat-value" style="color:rgba(245,240,233,0.25)">5</span><span class="mega-stat-label">Unknown</span></div>
+  </div>
+</div>
+
+<!-- WHO IS DETAINED -->
+<div class="who-bar">
+  <div class="who-eyebrow">⚑ Who is actually being detained — vs. the stated rationale</div>
+  <div class="who-grid">
+    <div class="who-block">
+      <span class="who-value" style="color:#e05555">73.6%</span>
+      <span class="who-label">of detainees have no criminal conviction</span>
+      <span class="who-note">50,259 of 68,289 detained · <a href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC Feb 7, 2026</a></span>
+    </div>
+    <div class="who-block">
+      <span class="who-value" style="color:#e05555">5%</span>
+      <span class="who-label">have a violent criminal conviction</span>
+      <span class="who-note">Most convictions are traffic, immigration, or minor offenses · <a href="https://www.cato.org/blog/5-ice-detainees-have-violent-convictions-73-no-convictions" target="_blank">Cato Nov 2025</a></span>
+    </div>
+    <div class="who-block">
+      <span class="who-value" style="color:#c49a20">2,450%</span>
+      <span class="who-label">surge in detention of people with no criminal record</span>
+      <span class="who-note">From 6% to 41% of detainees in one year · <a href="https://www.americanimmigrationcouncil.org/press-release/report-trump-immigration-detention-2026/" target="_blank">AIC Jan 2026</a></span>
+    </div>
+    <div class="who-block">
+      <span class="who-value" style="color:rgba(245,240,233,0.35)">0.05%</span>
+      <span class="who-label">convicted of murder</span>
+      <span class="who-note">More detained for traffic violations (716) than theft, drug trafficking, or burglary combined that month · <a href="https://www.brennancenter.org/our-work/research-reports/despite-budget-surge-ice-fails-make-country-safer" target="_blank">Brennan Center</a></span>
+    </div>
+  </div>
+  <div class="who-stated">
+    <strong>The stated rationale —</strong> DHS Sec. Noem (Jan 18, 2026): "70% of them have committed or have charges against them on violent crimes." ·
+    <strong>What ICE's own data shows:</strong> ~52% have any conviction or pending charge. 5% have violent convictions. ·
+    <a href="https://www.factcheck.org/2026/01/as-ice-arrests-increased-a-higher-portion-had-no-u-s-criminal-record/" target="_blank">FactCheck.org</a> · <a href="https://www.poynter.org/fact-checking/2026/how-many-arrested-immigrants-violent-crime-convictions/" target="_blank">Poynter</a> · <a href="https://www.cbsnews.com/news/ices-detainee-population-record-high-of-73000/" target="_blank">CBS News</a>
+  </div>
+</div>
+
+<!-- WHY BUILD MORE IF 73% TO GOAL -->
+<div class="context-band why-band">
+  <div class="context-eyebrow">⚑ The question the numbers raise — why build more?</div>
+  <div class="why-grid">
+    <div class="why-col">
+      <div class="context-hed">73% to 100K. So why are <strong>24 more facilities being built</strong> — including 8 mega centers?</div>
+      <div class="context-body">
+        <strong>Because 100,000 is not the real target.</strong> The "One Big Beautiful Bill" funds ICE to operate upwards of <strong>135,000 detention beds through the end of FY2029</strong> — not 100,000. 100K is the near-term floor, not the ceiling. Sources: <a href="https://www.americanimmigrationcouncil.org/blog/ice-expanding-detention-system/" target="_blank">AIC Feb 2026</a> · <a href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan Center</a>
+        <br><br>
+        <strong>And because 73% of the goal is rented.</strong> ICE currently owns just 10 of 225 facilities. The rest are contracted from CoreCivic, GEO Group, and county jails. The warehouse program is about <strong>owning the infrastructure</strong> — removing dependency on private contractors, avoiding local oversight, and potentially claiming federal immunity from zoning and environmental laws. Sources: <a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC Feb 2026</a> · <a href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan Center</a>
+      </div>
+    </div>
+    <div class="why-col">
+      <div class="context-body" style="margin-top:0">
+        <strong>The ownership math:</strong><br>
+        ICE owns: <strong style="color:rgba(245,240,233,0.85)">10 facilities</strong><br>
+        ICE contracts: <strong style="color:rgba(245,240,233,0.85)">215 facilities</strong><br>
+        ICE warehouse target: <strong style="color:rgba(245,240,233,0.85)">24 owned conversions</strong><br><br>
+        The shift from contracting to ownership is the structural story under the numbers. Acting ICE Director Todd Lyons described the goal as "<a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">Amazon Prime, but with human beings</a>" — centralized, government-owned, high-volume processing.<br><br>
+        <strong>What this means in practice:</strong> When ICE owns the facility, it controls the terms. Private contractors can be pressured by investors, state laws, community opposition, and public accountability. A government-owned warehouse in a remote logistics corridor has none of those friction points. The warehouse program is not just expansion — it is insulation from accountability.
+        <br><br>
+        <strong style="color:rgba(245,240,233,0.6)">Separately: are deportations actually increasing?</strong> Despite 13× normal funding and a near-doubling of the detained population, total removals under Trump's second term are only <strong style="color:#c49a20">7% higher</strong> than Biden's last full year. <a href="https://tracreports.org/reports/767/" target="_blank">TRAC, Mar 2026</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHO PROFITS -->
+<div class="context-band profits-band">
+  <div class="context-eyebrow">$ Who profits from detention — and by how much</div>
+  <div class="profits-grid">
+    <div class="profit-block">
+      <div class="profit-value" style="color:#c49a20">$254M</div>
+      <div class="profit-label">GEO Group profit — 2025</div>
+      <div class="profit-note">~700% increase over 2024 · "Most successful year for new business wins in our company's history" — GEO Chairman George Zoley · <a href="https://www.commondreams.org/news/geo-group-ice-profits" target="_blank">Common Dreams Feb 2026</a> · <a href="https://www.scrippsnews.com/investigations/ice-inc/ice-contracts-fuel-revenue-surge-for-owners-of-for-profit-immigration-detention-centers" target="_blank">Scripps Feb 2026</a></div>
+    </div>
+    <div class="profit-block">
+      <div class="profit-value" style="color:#c49a20">$116.5M</div>
+      <div class="profit-label">CoreCivic profit — 2025</div>
+      <div class="profit-note">+70% year over year · ICE revenue more than doubled in Q4 2025 alone: $244.7M vs. $120.3M prior year · "Our business is perfectly aligned with the demands of this moment" — CoreCivic CEO · <a href="https://theappeal.org/ice-geo-group-corecivic-profits/" target="_blank">The Appeal Feb 2026</a></div>
+    </div>
+    <div class="profit-block">
+      <div class="profit-value" style="color:rgba(245,240,233,0.6)">58%</div>
+      <div class="profit-label">of all ICE detainees held by GEO + CoreCivic</div>
+      <div class="profit-note">GEO projects $2.9–3.1B revenue for 2026 · ICE contracts = ~50% of GEO's projected revenue · For CoreCivic, ICE = 40% of Q4 2024 revenue · <a href="https://stocktwits.com/news-articles/markets/equity/geo-group-and-corecivic-stocks-are-getting-beaten-up-why-such-a-selloff/cZRNfZsR4xn" target="_blank">Stocktwits / Bloomberg Mar 2026</a></div>
+    </div>
+  </div>
+  <div class="profit-quote">
+    <strong>Private investors on CoreCivic's Q4 2025 earnings call:</strong> "One of the big questions has been the pace of detention by ICE, that it's been below what investors thought it was going to be. I think people thought we'd be at that 100,000 level. We're at a little over 70,000." — Joseph Gomes, NOBLE Capital Markets, Inc. · <a href="https://theappeal.org/ice-geo-group-corecivic-profits/" target="_blank">The Appeal Feb 2026</a><br><br>
+    <strong>Political giving:</strong> GEO Group and CoreCivic spent $1.38M and $1.77M respectively lobbying Congress in 2024, focused on DHS appropriations. Both companies' stocks rose 56% and 73% respectively after Trump's 2024 election win. · <a href="https://www.citizensforethics.org/reports-investigations/crew-investigations/trumps-budget-bill-benefits-private-immigration-detention-companies-that-donated-to-trump/" target="_blank">CREW Jul 2025</a> · <a href="https://www.opensecrets.org/news/2025/04/private-prison-companies-positioned-to-benefit-from-increased-deportations/" target="_blank">OpenSecrets Apr 2025</a><br><br>
+    <strong>Note on the warehouse shift:</strong> GEO Group and CoreCivic stocks fell sharply in March 2026 on reports that ICE plans to shift to government-owned warehouse facilities, reducing its reliance on private contractors. The warehouse program may ultimately cut private prison revenues even as it expands total detention capacity. · <a href="https://stocktwits.com/news-articles/markets/equity/geo-group-and-corecivic-stocks-are-getting-beaten-up-why-such-a-selloff/cZRNfZsR4xn" target="_blank">Stocktwits Mar 2026</a>
+  </div>
+</div>
+
+<!-- ALLIGATOR ALCATRAZ -->
+<div class="context-band alcatraz-band">
+  <div class="context-eyebrow">⚑ Case study: "Alligator Alcatraz" — Florida's Everglades detention facility</div>
+  <div class="alcatraz-grid">
+    <div>
+      <div class="context-hed">Built in <strong>8 days</strong> in the Florida Everglades. Opened July 1, 2025. Amnesty International concluded conditions <strong>constitute torture.</strong></div>
+      <div class="context-body" style="margin-top:12px">
+        Florida Governor DeSantis seized a Miami-Dade County airfield using emergency powers, bypassed competitive bidding, and issued $360M+ in no-bid contracts — many to politically-connected firms — to build the facility. Trump attended the opening. <a href="https://en.wikipedia.org/wiki/Alligator_Alcatraz" target="_blank">Wikipedia</a> · <a href="https://www.floridapolicy.org/posts/floridas-immigration-internment-camp-stunt-came-at-the-cost-of-law-lives-and-urgent-state-priorities" target="_blank">Florida Policy Institute</a><br><br>
+        <strong>Conditions documented by Amnesty International (Dec 2025):</strong> Routine and prolonged use of shackles. Confinement in structures described as 2×2 foot cage-like boxes. No sanitary facilities. No consistent medical care. No access to legal counsel. Detainees held without appearing in ICE's tracking system — making them unfindable by family or attorneys. <a href="https://www.amnesty.org/en/latest/news/2025/12/estados-unidos-nuevas-investigaciones-revelan-violaciones-de-derechos-humanos-en-los-centros-de-detencion-de-alligator-alcatraz-y-krome-en-florida/" target="_blank">Amnesty International Dec 2025</a><br><br>
+        <strong>Legal status (Mar 2026):</strong> Injunction issued, stayed by 11th Circuit pending appeal. Currently operating. A state-commissioned environmental report in March 2026 found air pollutant emissions exceeding regulatory thresholds. Florida has spent more than $1M per day to run the facility — $3M/day in early weeks. The state initially applied for $1.4B in federal reimbursement. <a href="https://earthjustice.org/press/2026/florida-banked-on-1-4-billion-in-federal-funds-for-everglades-detention-center" target="_blank">Earthjustice Mar 2026</a> · <a href="https://www.wusf.org/the-florida-roundup/2026-03-09/florida-awaits-reimbursement-everglades-detention-center-alligator-alcatraz" target="_blank">WUSF Mar 2026</a><br><br>
+        <strong>The model being replicated:</strong> DHS Secretary Noem called the setup "much better" than current models. The Trump administration is using Alligator Alcatraz as a template for state-federal detention partnerships, with Indiana and Louisiana already following. <a href="https://www.themarshallproject.org/2025/08/22/florida-ice-indiana-louisiana-prison-immigration-detention" target="_blank">The Marshall Project Aug 2025</a>
+      </div>
+    </div>
+    <div class="alcatraz-stats">
+      <div class="alc-stat">
+        <span class="alc-value" style="color:#c49a20">$450M</span>
+        <span class="alc-label">Estimated annual operating cost</span>
+        <span class="alc-note">vs. $187 avg daily cost per bed at standard ICE facilities · <a href="https://www.floridapolicy.org/posts/floridas-immigration-internment-camp-stunt-came-at-the-cost-of-law-lives-and-urgent-state-priorities" target="_blank">Florida Policy Institute</a></span>
+      </div>
+      <div class="alc-stat">
+        <span class="alc-value" style="color:#e05555">3,000</span>
+        <span class="alc-label">Designed capacity — in tents, in a hurricane zone</span>
+        <span class="alc-note">Everglades wetlands. No permanent infrastructure. <a href="https://www.globaldetentionproject.org/countries/americas/united-states/detention-centres/2831/everglades-detention-facility-alligator-alcatraz" target="_blank">Global Detention Project</a></span>
+      </div>
+      <div class="alc-stat">
+        <span class="alc-value" style="color:#c49a20">$608M</span>
+        <span class="alc-label">Federal reimbursement awarded to Florida</span>
+        <span class="alc-note">Full FEMA Detention Support Grant Program · <a href="https://floridaphoenix.com/2025/10/03/florida-awarded-608-million-u-s-grant-for-immigration-detention-centers/" target="_blank">Florida Phoenix Oct 2025</a></span>
+      </div>
+      <div class="alc-stat">
+        <span class="alc-value" style="color:rgba(245,240,233,0.35)">31%</span>
+        <span class="alc-label">of detainees had final deportation orders on entry</span>
+        <span class="alc-note">Despite DeSantis's claim that "all" had final orders · <a href="https://www.nbcmiami.com/news/local/secrets-of-alligator-alcatraz-revealed-in-newly-released-data-analyzed-by-nbc6-investigates/3732176/" target="_blank">NBC6 Investigates Dec 2025</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GUANTANAMO -->
+<div class="context-band gtmo-band">
+  <div class="context-eyebrow">⚑ Guantánamo Bay — attempted, abandoned, status uncertain</div>
+  <div class="gtmo-grid">
+    <div>
+      <div class="context-hed">Trump announced <strong>30,000 beds</strong> at Guantánamo Bay. The facility peaked at <strong style="color:rgba(245,240,233,0.5)">fewer than 200</strong> detainees before being emptied.</div>
+      <div class="context-body" style="margin-top:12px">
+        In January 2025, Trump signed an executive order to expand the Migrant Operations Center at Guantánamo Bay to house 30,000 immigrants. By February 12, 2025, 98 migrants had arrived. The facility peaked at just under 200 detainees. <a href="https://immpolicytracking.org/policies/eo-expanding-migrant-operations-center-at-naval-station-guantanamo-bay-to-full-capacity-directs-departments-of-defense-and-homeland-security-to-begin-preparing-guantanamo-bay-for-detention-of-migrants/" target="_blank">IPTP</a><br><br>
+        <strong>Why it failed:</strong> The 195 tents erected for migrants did not meet ICE's own detention standards — no air conditioning, inadequate electricity. A water pipeline failure displaced detainees. Legal challenges by the ACLU and others complicated transfers. By March 12, 2025, all remaining migrants — 40 people — had been flown back to Louisiana. <a href="https://www.washingtonpost.com/immigration/2025/03/12/guantanamo-ice-migrants-trump-deportations/" target="_blank">Washington Post Mar 2025</a> · <a href="https://abcnews.com/Politics/remaining-migrants-guantanamo-bay-moved-louisiana-await-deportation/story?id=119733087" target="_blank">ABC News Mar 2025</a><br><br>
+        <strong>The cost:</strong> $16 million to stand up a camp that held fewer than 200 people and lasted weeks. Each tent reportedly cost $3.1M to construct — without meeting ICE standards. The average daily cost per detainee at Guantánamo was approximately <strong>$100,000</strong> — compared to $165/day in standard ICE detention. <a href="https://www.npr.org/2025/09/12/nx-s1-5539821/guantanamo-migrants-water-deportations-ice" target="_blank">NPR Sep 2025</a><br><br>
+        <strong>Current status (Mar 2026):</strong> The Guantánamo migrant detention operation is effectively suspended pending legal proceedings. The Cuban nationals transferred in late 2025 were the most recent cohort. DOD's Inspector General continues to review the operation. ICE has not ruled out future use. <a href="https://immpolicytracking.org/policies/eo-expanding-migrant-operations-center-at-naval-station-guantanamo-bay-to-full-capacity-directs-departments-of-defense-and-homeland-security-to-begin-preparing-guantanamo-bay-for-detention-of-migrants/" target="_blank">IPTP policy timeline</a>
+      </div>
+    </div>
+    <div>
+      <div class="context-body">
+        <strong>Why it matters for the larger system:</strong><br><br>
+        Guantánamo was not a logistical failure — it was a political signal. The administration knew the facility couldn't scale. Rep. Sara Jacobs (D-CA), who toured the site, said it was "entirely for optics." <a href="https://abcnews.com/Politics/remaining-migrants-guantanamo-bay-moved-louisiana-await-deportation/story?id=119733087" target="_blank">ABC News</a><br><br>
+        The same pattern appears in Alligator Alcatraz, the warehouse mega centers, and Camp East Montana: <strong>facilities designed to project scale and menace, built before infrastructure exists to operate them safely.</strong><br><br>
+        <strong>The accountability gap:</strong> Migrants transferred to Guantánamo stopped appearing in ICE's public tracking system — making them unfindable. Bond hearings were canceled because immigration judges said they had no jurisdiction. The same disappearance from official data occurs at Alligator Alcatraz. <a href="https://www.themarshallproject.org/2025/08/22/florida-ice-indiana-louisiana-prison-immigration-detention" target="_blank">The Marshall Project</a><br><br>
+        <strong>Cost comparison:</strong><br>
+        Guantánamo: <strong style="color:#c49a20">~$100,000/person/day</strong><br>
+        Alligator Alcatraz: <strong style="color:#c49a20">$245/person/day</strong> (vs. $187 ICE avg)<br>
+        Standard ICE detention: <strong style="color:rgba(245,240,233,0.6)">$165–187/person/day</strong><br>
+        <span style="font-size:11px;font-family:'DM Mono',monospace;color:rgba(245,240,233,0.3)">Sources: <a href="https://www.npr.org/2025/09/12/nx-s1-5539821/guantanamo-migrants-water-deportations-ice" target="_blank" style="color:#6a9ab0">NPR</a> · <a href="https://www.floridapolicy.org/posts/floridas-immigration-internment-camp-stunt-came-at-the-cost-of-law-lives-and-urgent-state-priorities" target="_blank" style="color:#6a9ab0">Florida Policy Institute</a></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CREAM CONTENT -->
+<main>
+
+  <div class="transparency">
+    <span class="t-title">⚠ Federal Transparency Failure — Documented</span>
+    <div class="t-item"><strong>Concealing the detention network.</strong> <a href="https://www.vera.org/ice-detention-trends" target="_blank">Vera Institute</a> found ICE detained people in 528 facilities in September 2025 but publicly acknowledged only 189 — concealing more than half.</div>
+    <div class="t-item"><strong>Defying Congress on bi-weekly reporting.</strong> Congress mandated regular public release of detention data. <a href="https://austinkocher.substack.com/p/show-your-work-the-math-behind-my" target="_blank">Syracuse's Austin Kocher confirmed in January 2026</a> ICE began withholding the required spreadsheet in direct defiance of law.</div>
+    <div class="t-item"><strong>Publishing false data as current.</strong> <a href="https://tracreports.org/reports/696/" target="_blank">TRAC documented</a> ICE releasing ATD figures from 2021 as current and facility statistics two years out of date. <a href="https://usafacts.org/articles/ask-an-analyst/searching-for-data-on-ice/" target="_blank">USAFacts (Jan 2026)</a> found FY2025 semiannual data zeroed without explanation.</div>
+    <div class="t-item"><strong>Hiding warehouse purchases from elected officials.</strong> <a href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">NPR (Mar 2026)</a>: representatives in Oakwood GA, Baytown TX, and Highland Park MI received zero response from DHS. <a href="https://couriernewsroom.com/news/map-ice-detention-warehouse/" target="_blank">Courier Newsroom</a> documented ICE using unmarked vehicles and plain-clothes agents to surveil sites covertly.</div>
+    <div class="t-item"><strong>Silently eliminating data categories.</strong> The <a href="https://austinkocher.substack.com/p/92-of-ice-detention-growth-in-fy" target="_blank">Feb 3, 2026 data update</a> removed transgender detainee reporting — published throughout the Biden administration — with no notice.</div>
+    <div class="t-item"><strong>FOIA obstruction as policy.</strong> <a href="https://www.americanimmigrationcouncil.org/blog/data-numbers-case-against-ice/" target="_blank">ICE fought court orders</a> to produce anonymized detention data, arguing unique identifiers would be "new records." Second Circuit reversed in 2025. <a href="https://immigrationlitigation.org/transparency-litigation-foia/" target="_blank">Active FOIA litigation</a> spans dozens of cases. <a href="https://www.ice.gov/foia" target="_blank">Effective Feb 23, 2026</a>, ICE stopped accepting paper FOIA requests — except from detained individuals, who have the least ability to file electronically.</div>
+    <div class="t-item"><strong>Removing oversight of pregnant detainees.</strong> <a href="https://www.brennancenter.org/our-work/research-reports/despite-budget-surge-ice-fails-make-country-safer" target="_blank">Brennan Center</a>: Congress required ICE to report detained pregnant women since 2019. The Republican-controlled Congress removed that requirement March 2025. A Biden-era policy limiting detention of pregnant and nursing mothers is no longer in effect.</div>
+    <p style="margin-top:16px;font-size:12px;color:var(--text-mid)">What you see in this tracker was assembled from FOIA litigation, TRAC analysis, NPR reporting, and independent research. It is not what the government has chosen to tell you.</p>
+  </div>
+
+  <div class="note">
+    <strong>Why the facility totals below don't reconcile to 68,000+:</strong> Named facilities represent the largest known sites where population data exists — roughly 15,000–18,000 of ~68,000 detained. The remaining 50,000+ are across 200+ county jails, private prisons, military sites, and ICE field offices that publish no population data. Full network: <a href="https://www.freedomforimmigrants.org/map" target="_blank">Freedom for Immigrants map</a> · <a href="https://www.vera.org/ice-detention-trends" target="_blank">Vera Institute dashboard</a>
+  </div>
+
+  <!-- ACTIVE FACILITIES TABLE -->
+  <div class="section-label" style="margin-top:32px">Largest Known Active Facilities — top sites where data is publicly available (13 of 225+)</div>
+  <div class="filters">
+    <button class="filter-btn active" onclick="filterTable('all',this)">All</button>
+    <button class="filter-btn" onclick="filterTable('active',this)">Active</button>
+    <button class="filter-btn" onclick="filterTable('pending',this)">Conversion Pending</button>
+    <button class="filter-btn" onclick="filterTable('blocked',this)">Blocked / Killed</button>
+    <button class="filter-btn" onclick="filterTable('mega',this)">Mega Centers</button>
+  </div>
+  <div class="table-wrap">
+  <table id="main-table">
+    <thead><tr><th>Facility</th><th>Location</th><th>Type</th><th>Owner / Operator</th><th>Max Capacity</th><th>Current Occupancy</th><th>Cost</th><th>Status</th><th>Sources</th></tr></thead>
+    <tbody>
+      <tr data-filter="active military">
+        <td class="facility-name">Camp East Montana<br><span style="font-weight:400;font-size:11px;color:var(--mid)">Fort Bliss</span></td>
+        <td>El Paso, TX</td><td class="type-mil">Military Tent Camp</td><td>Federal / U.S. Army</td><td>5,000</td>
+        <td class="occupancy occ-danger">2,954 avg/day<br><span style="font-weight:400;font-size:10px">TRAC Feb 2026</span></td>
+        <td class="cost">—</td><td><span class="badge badge-military">Active</span></td>
+        <td><a class="src" href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC</a><a class="src" href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Adams County Correctional Center</td>
+        <td>Natchez, MS</td><td class="type-active">Private Prison (CDF)</td><td>CoreCivic</td><td>~2,500</td>
+        <td class="occupancy occ-danger">2,200<br><span style="font-weight:400;font-size:10px">FFI Feb 2026</span></td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.freedomforimmigrants.org/map" target="_blank">FFI</a><a class="src" href="https://mississippitoday.org/2026/03/20/help-us-report-on-ice-detention-in-mississippi/" target="_blank">MS Today</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Stewart Detention Center</td>
+        <td>Lumpkin, GA</td><td class="type-active">Contract Detention Facility</td><td>CoreCivic</td><td>~2,000</td>
+        <td class="occupancy occ-danger">2,000<br><span style="font-weight:400;font-size:10px">FFI Feb 2026</span></td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.freedomforimmigrants.org/map" target="_blank">FFI</a><a class="src" href="https://www.vera.org/news/more-people-are-in-immigration-detention-than-ever-before" target="_blank">Vera</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">South Texas ICE Processing Center</td>
+        <td>Pearsall, TX</td><td class="type-active">Contract Detention Facility</td><td>GEO Group</td><td>~1,900</td>
+        <td class="occupancy">1,666<br><span style="font-size:10px;color:var(--mid)">TRAC Feb 2025 — 2026 not published</span></td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://tracreports.org/reports/753/" target="_blank">TRAC</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Krome North Service Processing Center</td>
+        <td>Miami, FL</td><td class="type-active">ICE-Owned SPC</td><td>ICE (Federal)</td><td>611 contractual</td>
+        <td class="occupancy occ-danger">1,806 peak — 3× capacity<br><span style="font-weight:400;font-size:10px">TRAC FY2025</span></td>
+        <td class="cost">Federal asset</td><td><span class="badge badge-over">Overcrowded</span></td>
+        <td><a class="src" href="https://tracreports.org/reports/762/" target="_blank">TRAC</a><a class="src" href="https://www.npr.org/2026/03/10/g-s1-111238/immigration-detention-deaths-custody" target="_blank">NPR</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Folkston ICE Processing Center<br><span style="font-weight:400;font-size:11px;color:var(--mid)">+ Annex + D. Ray facility</span></td>
+        <td>Folkston, GA</td><td class="type-active">Contract Detention Facility</td><td>LaSalle Corrections</td><td>~1,600+</td>
+        <td class="occupancy" style="color:var(--mid)">Not published — ICE withholds</td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.ice.gov/detain/detention-facilities/tablets" target="_blank">ICE.gov</a><a class="src" href="https://www.vera.org/ice-detention-trends" target="_blank">Vera</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Pine Prairie ICE Processing Center</td>
+        <td>Pine Prairie, LA</td><td class="type-active">Contract Detention Facility</td><td>GEO Group</td><td>~1,070 contractual</td>
+        <td class="occupancy occ-danger">400+ over capacity<br><span style="font-weight:400;font-size:10px">TRAC FY2025</span></td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-over">Overcrowded</span></td>
+        <td><a class="src" href="https://tracreports.org/reports/762/" target="_blank">TRAC</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Adelanto ICE Processing Center</td>
+        <td>Adelanto, CA</td><td class="type-active">Contract Detention Facility</td><td>GEO Group</td><td>~1,940</td>
+        <td class="occupancy" style="color:var(--mid)">Not published — ICE withholds</td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.vera.org/ice-detention-trends" target="_blank">Vera</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Moshannon Valley ICE Processing Center</td>
+        <td>Philipsburg, PA</td><td class="type-active">Contract Detention Facility</td><td>GEO Group</td><td>~1,800</td>
+        <td class="occupancy" style="color:var(--mid)">Not published — ICE withholds</td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.vera.org/ice-detention-trends" target="_blank">Vera</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Florence Staging Facility</td>
+        <td>Florence, AZ</td><td class="type-active">Service Processing Center</td><td>ICE (Federal)</td><td>~1,000</td>
+        <td class="occupancy occ-warn">~50% of AZ's 60,000+ book-ins<br><span style="font-weight:400;font-size:10px">NPR Mar 2026</span></td>
+        <td class="cost">Federal asset</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">NPR</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Alexandria Staging Facility</td>
+        <td>Alexandria, LA</td><td class="type-active">Staging / Processing</td><td>ICE (Federal)</td><td>Not disclosed</td>
+        <td class="occupancy occ-warn">45% of LA's 93,105 book-ins<br><span style="font-weight:400;font-size:10px">NPR Mar 2026</span></td>
+        <td class="cost">Federal asset</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">NPR</a></td>
+      </tr>
+      <tr data-filter="active">
+        <td class="facility-name">Delaney Hall ICE Detention Facility</td>
+        <td>Newark, NJ</td><td class="type-active">Contract Detention Facility</td><td>GEO Group</td><td>~1,000</td>
+        <td class="occupancy" style="color:var(--mid)">Not published — ICE withholds</td>
+        <td class="cost">Undisclosed</td><td><span class="badge badge-active">Active</span></td>
+        <td><a class="src" href="https://www.ice.gov/detain/detention-facilities/tablets" target="_blank">ICE.gov</a></td>
+      </tr>
+      <tr data-filter="active" style="background:rgba(74,94,112,0.03)">
+        <td class="facility-name" style="font-weight:400;font-style:italic;color:var(--text-mid)">~212 additional facilities</td>
+        <td style="color:var(--mid)">Nationwide</td><td style="color:var(--mid)">County jails, private prisons, military, field offices</td>
+        <td style="color:var(--mid)">Mixed — CoreCivic, GEO, LaSalle, county govts</td><td style="color:var(--mid)">Varies</td>
+        <td class="occupancy" style="color:var(--mid)">~50,000+ combined<br><span style="font-size:10px">ICE does not publish</span></td>
+        <td class="cost" style="color:var(--mid)">Not disclosed</td>
+        <td><span class="badge badge-withheld">Data Withheld</span></td>
+        <td><a class="src" href="https://www.vera.org/ice-detention-trends" target="_blank">Vera</a><a class="src" href="https://www.freedomforimmigrants.org/map" target="_blank">FFI</a></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4"><span class="tfoot-label">Known Active Totals — partial, named facilities only</span></td>
+        <td><strong>~22,000+</strong><span class="tfoot-label">known capacity</span></td>
+        <td><strong>~14,820 confirmed + ~50,000 undisclosed</strong></td>
+        <td colspan="3"><span class="tfoot-label">System total: ~68,289 detained Feb 2026 · TRAC · Full data withheld by ICE</span></td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <!-- WAREHOUSE CONVERSION TABLE -->
+  <div class="section-label" style="margin-top:44px">Warehouse Conversion Pipeline — 9 purchased of 24 planned · $700M of $38.3B spent (1.8%)</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Site</th><th>Location</th><th>Type</th><th>Planned Capacity</th><th>Purchase Cost</th><th>Occupancy</th><th>Status</th><th>Sources</th></tr></thead>
+    <tbody>
+      <tr><td class="facility-name">Social Circle Warehouse</td><td>Social Circle, GA<br><span style="font-size:11px;color:var(--mid)">50 mi from Atlanta</span></td><td class="type-mega">Mega Center</td><td>7,500–10,000</td><td class="cost" style="color:#7a5a1e;font-weight:700">$129,000,000</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a><a class="src" href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan</a></td></tr>
+      <tr><td class="facility-name">Socorro Warehouse</td><td>Socorro, TX<br><span style="font-size:11px;color:var(--mid)">El Paso metro</span></td><td class="type-mega">Mega Center</td><td>7,500–8,500</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a><a class="src" href="https://www.bloomberg.com/news/features/2026-01-29/us-spends-hundreds-of-millions-on-warehouses-for-ice-detention-centers" target="_blank">Bloomberg</a></td></tr>
+      <tr><td class="facility-name">Tremont Warehouse</td><td>Tremont, PA<br><span style="font-size:11px;color:var(--mid)">Central Pennsylvania</span></td><td class="type-mega">Mega Center</td><td>7,500–10,000</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">Hagerstown Warehouse</td><td>Hagerstown, MD</td><td class="type-proc">Processing Center</td><td>1,500</td><td class="cost" style="color:#7a5a1e;font-weight:700">$102,000,000+</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan</a><a class="src" href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">NPR</a></td></tr>
+      <tr><td class="facility-name">Surprise Warehouse</td><td>Surprise, AZ</td><td class="type-proc">Processing Center</td><td>1,500</td><td class="cost" style="color:#7a5a1e;font-weight:700">$70,000,000</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan</a><a class="src" href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">NPR</a></td></tr>
+      <tr><td class="facility-name">Hamburg Warehouse</td><td>Hamburg, PA</td><td class="type-proc">Processing Center</td><td>1,000–1,500</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">Romulus Warehouse</td><td>Romulus, MI</td><td class="type-proc">Processing Center</td><td>1,000–1,500</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">San Antonio Warehouse</td><td>San Antonio, TX</td><td class="type-proc">Processing Center</td><td>1,000–1,500</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">Roxbury Warehouse</td><td>Roxbury, NJ</td><td class="type-proc">Processing Center</td><td>1,000–1,500</td><td class="cost" style="color:var(--mid)">Undisclosed</td><td style="color:var(--mid)">0 — not open</td><td><span class="badge badge-pending">Purchased</span></td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><span class="tfoot-label">Purchased sites — 9 of 24 planned</span></td>
+        <td><strong>~35,000–47,500</strong><span class="tfoot-label">planned beds, 9 sites</span></td>
+        <td><strong>$301M+ confirmed</strong><span class="tfoot-label">of $38.3B budget · 1.8% deployed</span></td>
+        <td><strong>0</strong><span class="tfoot-label">currently detained</span></td>
+        <td colspan="2"><span class="tfoot-label">15 additional sites unidentified, under negotiation, or blocked</span></td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <!-- BLOCKED TABLE -->
+  <div class="section-label" style="margin-top:44px">Blocked, Killed, or Stalled Sites — At least 12 purchases stopped by community opposition</div>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>Site</th><th>Location</th><th>Type</th><th>Planned Capacity</th><th>Why Blocked</th><th>Sources</th></tr></thead>
+    <tbody>
+      <tr><td class="facility-name">Chester Warehouse</td><td>Chester, NY</td><td class="type-proc">Processing Center</td><td>Unknown</td><td>Deal fell through — 10,000 signatures in town of 12,000</td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">Lebanon Warehouse</td><td>Lebanon, TN</td><td class="type-proc">Processing Center</td><td>Unknown</td><td>Deal fell through after ICE announcement</td><td><a class="src" href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC</a></td></tr>
+      <tr><td class="facility-name">Hutchins Warehouse</td><td>Hutchins, TX</td><td class="type-mega">Mega Center</td><td>~7,000+</td><td>Majestic Realty declined after community and city leader pushback</td><td><a class="src" href="https://www.opb.org/article/2026/03/23/ice-detention-expansion/" target="_blank">OPB</a></td></tr>
+      <tr><td class="facility-name">Byhalia Warehouse</td><td>Byhalia, MS</td><td class="type-mega">Mega Center</td><td>8,500</td><td>Sen. Roger Wicker (R) opposed · DHS agreed to "look elsewhere"</td><td><a class="src" href="https://immpolicytracking.org/policies/reported-ice-considers-buying-large-warehouses-to-expand-immigrant-detention-capacity/" target="_blank">IPTP</a></td></tr>
+      <tr><td class="facility-name">Oklahoma City Warehouse</td><td>Oklahoma City, OK</td><td class="type-proc">Processing Center</td><td>Unknown</td><td>Owner declined after protests and heated city council meeting</td><td><a class="src" href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan</a></td></tr>
+      <tr><td class="facility-name">Salt Lake City Warehouse</td><td>Salt Lake City, UT</td><td class="type-mega">Mega Center</td><td>7,500</td><td>Developer (Ritchie Group) publicly declined: "no plans to sell"</td><td><a class="src" href="https://couriernewsroom.com/news/map-ice-detention-warehouse/" target="_blank">Courier</a></td></tr>
+      <tr><td class="facility-name">Hanover County Warehouse</td><td>Hanover County, VA</td><td class="type-proc">Processing Center</td><td>Unknown</td><td>Owner pulled out after unanimous county Board of Supervisors resolution</td><td><a class="src" href="https://immpolicytracking.org/policies/reported-ice-considers-buying-large-warehouses-to-expand-immigrant-detention-capacity/" target="_blank">IPTP</a></td></tr>
+      <tr><td class="facility-name">Kansas City Warehouse</td><td>Kansas City, MO</td><td class="type-mega">Mega Center</td><td>7,000+</td><td>Stalled after county official publicly exposed covert ICE site survey</td><td><a class="src" href="https://couriernewsroom.com/news/map-ice-detention-warehouse/" target="_blank">Courier</a></td></tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="3"><span class="tfoot-label">Blocked / stalled — 8 confirmed, 12+ estimated total</span></td>
+        <td><strong>~37,500+ beds blocked</strong></td>
+        <td colspan="2"><span class="tfoot-label">All currently hold 0 detainees · ICE continues pursuing replacement sites</span></td>
+      </tr>
+    </tfoot>
+  </table>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources-section">
+    <div class="section-label">Primary Sources</div>
+    <div class="sources-grid">
+      <div class="source-card"><div class="outlet">AIC — Feb 2026</div><div class="title">ICE's Warehouse Purchases Herald New Model for Immigration Detention</div><a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">americanimmigrationcouncil.org →</a></div>
+      <div class="source-card"><div class="outlet">AIC — Jan 2026</div><div class="title">New Report Details ICE's Expanding and Increasingly Unaccountable Detention System</div><a href="https://www.americanimmigrationcouncil.org/press-release/report-trump-immigration-detention-2026/" target="_blank">americanimmigrationcouncil.org →</a></div>
+      <div class="source-card"><div class="outlet">Brennan Center — 2026</div><div class="title">How ICE's Budget Boom Is Changing Immigration Detention</div><a href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">brennancenter.org →</a></div>
+      <div class="source-card"><div class="outlet">Brennan Center — 2026</div><div class="title">Despite Budget Surge, ICE Fails to Make the Country Safer</div><a href="https://www.brennancenter.org/our-work/research-reports/despite-budget-surge-ice-fails-make-country-safer" target="_blank">brennancenter.org →</a></div>
+      <div class="source-card"><div class="outlet">NPR — Mar 23, 2026</div><div class="title">ICE's Growing Detention Footprint, and the Communities Fighting Back</div><a href="https://www.npr.org/2026/03/23/g-s1-114107/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">npr.org →</a></div>
+      <div class="source-card"><div class="outlet">NPR — Mar 10, 2026</div><div class="title">Immigration Detention on Track for Deadliest Fiscal Year Since 2004</div><a href="https://www.npr.org/2026/03/10/g-s1-111238/immigration-detention-deaths-custody" target="_blank">npr.org →</a></div>
+      <div class="source-card"><div class="outlet">TRAC — Feb 2026</div><div class="title">Immigration Detention Quick Facts</div><a href="https://tracreports.org/immigration/quickfacts/" target="_blank">tracreports.org →</a></div>
+      <div class="source-card"><div class="outlet">TRAC — 2025/26</div><div class="title">ICE Contractual Capacity and Number Detained</div><a href="https://tracreports.org/reports/762/" target="_blank">tracreports.org →</a></div>
+      <div class="source-card"><div class="outlet">Vera Institute</div><div class="title">ICE Detention Trends — 17-Year Facility Dashboard</div><a href="https://www.vera.org/ice-detention-trends" target="_blank">vera.org →</a></div>
+      <div class="source-card"><div class="outlet">Cato Institute — Nov 2025</div><div class="title">5% of ICE Detainees Have Violent Convictions, 73% No Convictions</div><a href="https://www.cato.org/blog/5-ice-detainees-have-violent-convictions-73-no-convictions" target="_blank">cato.org →</a></div>
+      <div class="source-card"><div class="outlet">FactCheck.org — Jan 28, 2026</div><div class="title">As ICE Arrests Increased, a Higher Portion Had No U.S. Criminal Record</div><a href="https://www.factcheck.org/2026/01/as-ice-arrests-increased-a-higher-portion-had-no-u-s-criminal-record/" target="_blank">factcheck.org →</a></div>
+      <div class="source-card"><div class="outlet">Poynter — Jan 26, 2026</div><div class="title">Noem Said Most ICE Detainees Are Violent Criminals. The Data Says Otherwise.</div><a href="https://www.poynter.org/fact-checking/2026/how-many-arrested-immigrants-violent-crime-convictions/" target="_blank">poynter.org →</a></div>
+      <div class="source-card"><div class="outlet">CBS News — Jan 16, 2026</div><div class="title">ICE's Detainee Population Reaches Record High of 73,000</div><a href="https://www.cbsnews.com/news/ices-detainee-population-record-high-of-73000/" target="_blank">cbsnews.com →</a></div>
+      <div class="source-card"><div class="outlet">Washington Post — Feb 13, 2026</div><div class="title">ICE Plans to Spend $38.3 Billion Turning Warehouses into Detention Centers</div><a href="https://www.washingtonpost.com/business/2026/02/13/ice-detention-center-expansion/" target="_blank">washingtonpost.com →</a></div>
+      <div class="source-card"><div class="outlet">Bloomberg — Jan 29, 2026</div><div class="title">US Spends Hundreds of Millions on Warehouses for ICE Detention Centers</div><a href="https://www.bloomberg.com/news/features/2026-01-29/us-spends-hundreds-of-millions-on-warehouses-for-ice-detention-centers" target="_blank">bloomberg.com →</a></div>
+      <div class="source-card"><div class="outlet">Austin Kocher / Syracuse — Jan 2026</div><div class="title">92% of ICE Detention Growth Driven by Immigrants with No Criminal Convictions</div><a href="https://austinkocher.substack.com/p/92-of-ice-detention-growth-in-fy" target="_blank">austinkocher.substack.com →</a></div>
+      <div class="source-card"><div class="outlet">Freedom for Immigrants</div><div class="title">Interactive Detention Map — All 225+ Active Facilities</div><a href="https://www.freedomforimmigrants.org/map" target="_blank">freedomforimmigrants.org →</a></div>
+      <div class="source-card"><div class="outlet">Immigration Policy Tracking Project</div><div class="title">ICE Warehouse Detention Expansion — Policy Timeline</div><a href="https://immpolicytracking.org/policies/reported-ice-considers-buying-large-warehouses-to-expand-immigrant-detention-capacity/" target="_blank">immpolicytracking.org →</a></div>
+      <div class="source-card"><div class="outlet">Scripps News — Feb 17, 2026</div><div class="title">ICE Contracts Fuel Revenue Surge for Owners of Private Detention Centers</div><a href="https://www.scrippsnews.com/investigations/ice-inc/ice-contracts-fuel-revenue-surge-for-owners-of-for-profit-immigration-detention-centers" target="_blank">scrippsnews.com →</a></div>
+      <div class="source-card"><div class="outlet">The Appeal — Feb 18, 2026</div><div class="title">Unsatisfied With Record Profits, Private Prison Investors Want ICE to Escalate</div><a href="https://theappeal.org/ice-geo-group-corecivic-profits/" target="_blank">theappeal.org →</a></div>
+      <div class="source-card"><div class="outlet">Common Dreams — Feb 2026</div><div class="title">GEO Group Reports Record $254M Profit After New ICE Contracts</div><a href="https://www.commondreams.org/news/geo-group-ice-profits" target="_blank">commondreams.org →</a></div>
+      <div class="source-card"><div class="outlet">CREW — Jul 2025</div><div class="title">Trump's Budget Bill Benefits Private Detention Companies That Donated to Trump</div><a href="https://www.citizensforethics.org/reports-investigations/crew-investigations/trumps-budget-bill-benefits-private-immigration-detention-companies-that-donated-to-trump/" target="_blank">citizensforethics.org →</a></div>
+      <div class="source-card"><div class="outlet">OpenSecrets — Apr 2025</div><div class="title">Private Prison Companies Positioned to Benefit from Increased Deportations</div><a href="https://www.opensecrets.org/news/2025/04/private-prison-companies-positioned-to-benefit-from-increased-deportations/" target="_blank">opensecrets.org →</a></div>
+      <div class="source-card"><div class="outlet">Amnesty International — Dec 2025</div><div class="title">Human Rights Violations at "Alligator Alcatraz" and Krome in Florida</div><a href="https://www.amnesty.org/en/latest/news/2025/12/estados-unidos-nuevas-investigaciones-revelan-violaciones-de-derechos-humanos-en-los-centros-de-detencion-de-alligator-alcatraz-y-krome-en-florida/" target="_blank">amnesty.org →</a></div>
+      <div class="source-card"><div class="outlet">Earthjustice — Mar 2026</div><div class="title">Florida Banked on $1.4 Billion in Federal Funds for Everglades Detention Center</div><a href="https://earthjustice.org/press/2026/florida-banked-on-1-4-billion-in-federal-funds-for-everglades-detention-center" target="_blank">earthjustice.org →</a></div>
+      <div class="source-card"><div class="outlet">The Marshall Project — Aug 2025</div><div class="title">Florida's Alligator Alcatraz Model Could Soon Come to Your State</div><a href="https://www.themarshallproject.org/2025/08/22/florida-ice-indiana-louisiana-prison-immigration-detention" target="_blank">themarshallproject.org →</a></div>
+      <div class="source-card"><div class="outlet">NBC6 Investigates — Dec 2025</div><div class="title">Secrets of "Alligator Alcatraz" Revealed in Newly Released ICE Data</div><a href="https://www.nbcmiami.com/news/local/secrets-of-alligator-alcatraz-revealed-in-newly-released-data-analyzed-by-nbc6-investigates/3732176/" target="_blank">nbcmiami.com →</a></div>
+      <div class="source-card"><div class="outlet">NPR — Sep 12, 2025</div><div class="title">Guantánamo Bay Water Failure Affects U.S. Migrant Operations</div><a href="https://www.npr.org/2025/09/12/nx-s1-5539821/guantanamo-migrants-water-deportations-ice" target="_blank">npr.org →</a></div>
+      <div class="source-card"><div class="outlet">Washington Post — Mar 12, 2025</div><div class="title">Trump Administration Flies All Remaining Guantánamo Migrants Back to U.S.</div><a href="https://www.washingtonpost.com/immigration/2025/03/12/guantanamo-ice-migrants-trump-deportations/" target="_blank">washingtonpost.com →</a></div>
+      <div class="source-card"><div class="outlet">TRAC — Mar 2026</div><div class="title">Taking Stock: Trump Administration Record on Detention and Removals</div><a href="https://tracreports.org/reports/767/" target="_blank">tracreports.org →</a></div>
+    </div>
+  </div>
+
+  <!-- DISCLOSURES -->
+  <div class="disclosures-section">
+    <div class="section-label">Disclosures &amp; Methodology</div>
+    <div class="disclosures-grid">
+      <div class="disc-block"><div class="disc-title">Data Completeness</div><p>This tracker covers the largest known active facilities and the confirmed warehouse conversion pipeline. It does not represent all 225+ active ICE facilities. Per-facility population data for most sites is not publicly available — ICE does not publish it. Full network: <a href="https://www.freedomforimmigrants.org/map" target="_blank">Freedom for Immigrants map</a> · <a href="https://www.vera.org/ice-detention-trends" target="_blank">Vera Institute dashboard</a>.</p></div>
+      <div class="disc-block"><div class="disc-title">Population Figures</div><p>Detained population figures are snapshots. 73,000 is a single-day peak Jan 16, 2026 (<a href="https://www.cbsnews.com/news/ices-detainee-population-record-high-of-73000/" target="_blank">CBS News</a>). 68,289 is TRAC's bi-weekly pull Feb 7, 2026 (<a href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC</a>). Neither includes short-term staging, field offices, or courtrooms. <a href="https://austinkocher.substack.com/p/ices-delayed-detention-data-is-out" target="_blank">Kocher/Syracuse</a> documented 70,766 on Jan 24, 2026 as the highest on public record.</p></div>
+      <div class="disc-block"><div class="disc-title">Purchase Costs</div><p>Confirmed costs only. Socorro TX, Tremont PA, Hamburg PA, Romulus MI, San Antonio TX, Roxbury NJ costs not disclosed by DHS as of March 25, 2026. $700M total: <a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">AIC Feb 2026</a>. $38.3B conversion budget: <a href="https://www.washingtonpost.com/business/2026/02/13/ice-detention-center-expansion/" target="_blank">Washington Post Feb 2026</a>, sourced from ICE internal planning documents.</p></div>
+      <div class="disc-block"><div class="disc-title">Mega Center Definition</div><p>"Mega center" uses ICE's own internal classification for facilities holding 7,500–10,000 people, from the <a href="https://www.americanimmigrationcouncil.org/blog/ice-buys-warehouses-immigration-detention/" target="_blank">ICE Detention Reengineering Initiative</a> documents released by New Hampshire, Feb 2026. Plan: 8 mega centers + 16 regional processing centers. Three mega sites purchased; five locations not publicly disclosed.</p></div>
+      <div class="disc-block"><div class="disc-title">Who Is Being Detained</div><p>Criminal history figures: <a href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC (Feb 7, 2026)</a>, <a href="https://www.cato.org/blog/5-ice-detainees-have-violent-convictions-73-no-convictions" target="_blank">Cato Institute (Nov 2025)</a>, <a href="https://www.factcheck.org/2026/01/as-ice-arrests-increased-a-higher-portion-had-no-u-s-criminal-record/" target="_blank">FactCheck.org (Jan 28, 2026)</a>, <a href="https://www.brennancenter.org/our-work/research-reports/despite-budget-surge-ice-fails-make-country-safer" target="_blank">Brennan Center</a>. Cato used nonpublic ICE data leaked to their researchers. "Criminal conviction" excludes pending charges; charges are often dismissed or result in acquittal, including after deportation.</p></div>
+      <div class="disc-block"><div class="disc-title">Funding Figures</div><p>$45B detention-specific and $85B total ICE funding from the "One Big Beautiful Bill Act," July 2025 — <a href="https://www.americanimmigrationcouncil.org/blog/ice-expanding-detention-system/" target="_blank">AIC</a>, <a href="https://www.brennancenter.org/our-work/research-reports/how-ices-budget-boom-changing-immigration-detention" target="_blank">Brennan Center</a>, <a href="https://www.kpbs.org/news/national/2026/03/23/ices-growing-detention-footprint-and-the-communities-fighting-back" target="_blank">KPBS/NPR</a>. $3.4B prior annual baseline from Brennan Center's analysis of the most recent pre-bill DHS budget.</p></div>
+      <div class="disc-block"><div class="disc-title">Transparency Failure Claims</div><p>528 vs. 189 facility gap: <a href="https://www.vera.org/ice-detention-trends" target="_blank">Vera Institute</a>. Bi-weekly reporting defiance: <a href="https://austinkocher.substack.com/p/show-your-work-the-math-behind-my" target="_blank">Kocher/Syracuse</a>. Erroneous data: <a href="https://tracreports.org/reports/696/" target="_blank">TRAC</a>. FOIA obstruction: <a href="https://www.americanimmigrationcouncil.org/blog/data-numbers-case-against-ice/" target="_blank">AIC</a> and <a href="https://immigrationlitigation.org/transparency-litigation-foia/" target="_blank">NILA</a>. Paper FOIA restriction: <a href="https://www.ice.gov/foia" target="_blank">ICE.gov, Feb 23, 2026</a>.</p></div>
+      <div class="disc-block"><div class="disc-title">True Detention Target: 135K, Not 100K</div><p>The 100,000 bed figure is the administration's stated near-term operational goal. The $45B appropriation from the One Big Beautiful Bill funds ICE to operate upwards of <strong>135,000 beds through the end of FY2029</strong>. Source: <a href="https://www.americanimmigrationcouncil.org/blog/ice-expanding-detention-system/" target="_blank">AIC Feb 2026</a>. The 100K figure is a floor; the warehouse program is building toward a larger, owned-infrastructure system independent of private contractors.</p></div>
+      <div class="disc-block"><div class="disc-title">Private Prison Profit Figures</div><p>GEO Group and CoreCivic profit and revenue figures are from their published 2025 annual earnings reports, as reported by <a href="https://www.scrippsnews.com/investigations/ice-inc/ice-contracts-fuel-revenue-surge-for-owners-of-for-profit-immigration-detention-centers" target="_blank">Scripps News</a>, <a href="https://theappeal.org/ice-geo-group-corecivic-profits/" target="_blank">The Appeal</a>, and <a href="https://www.commondreams.org/news/geo-group-ice-profits" target="_blank">Common Dreams</a>. Political contribution figures from <a href="https://www.opensecrets.org/news/2025/04/private-prison-companies-positioned-to-benefit-from-increased-deportations/" target="_blank">OpenSecrets</a> and <a href="https://www.citizensforethics.org/reports-investigations/crew-investigations/trumps-budget-bill-benefits-private-immigration-detention-companies-that-donated-to-trump/" target="_blank">CREW</a>. Stock price figures from CREW (Jul 2025).</p></div>
+      <div class="disc-block"><div class="disc-title">Alligator Alcatraz</div><p>Facility status as of March 25, 2026: operating, pending 11th Circuit appeal. Cost figures from <a href="https://www.floridapolicy.org/posts/floridas-immigration-internment-camp-stunt-came-at-the-cost-of-law-lives-and-urgent-state-priorities" target="_blank">Florida Policy Institute</a> and <a href="https://www.wusf.org/the-florida-roundup/2026-03-09/florida-awaits-reimbursement-everglades-detention-center-alligator-alcatraz" target="_blank">WUSF</a>. Federal reimbursement: <a href="https://floridaphoenix.com/2025/10/03/florida-awarded-608-million-u-s-grant-for-immigration-detention-centers/" target="_blank">Florida Phoenix Oct 2025</a>. Conditions: <a href="https://www.amnesty.org/en/latest/news/2025/12/estados-unidos-nuevas-investigaciones-revelan-violaciones-de-derechos-humanos-en-los-centros-de-detencion-de-alligator-alcatraz-y-krome-en-florida/" target="_blank">Amnesty International Dec 2025</a>. The 31% final-order figure is from <a href="https://www.nbcmiami.com/news/local/secrets-of-alligator-alcatraz-revealed-in-newly-released-data-analyzed-by-nbc6-investigates/3732176/" target="_blank">NBC6 Investigates</a> analysis of ICE FOIA data.</p></div>
+      <div class="disc-block"><div class="disc-title">Guantánamo Bay</div><p>Peak migrant population at Guantánamo Bay was fewer than 200, confirmed by <a href="https://immpolicytracking.org/policies/eo-expanding-migrant-operations-center-at-naval-station-guantanamo-bay-to-full-capacity-directs-departments-of-defense-and-homeland-security-to-begin-preparing-guantanamo-bay-for-detention-of-migrants/" target="_blank">IPTP</a>. All migrants returned to U.S. mainland by March 12, 2025 (<a href="https://www.washingtonpost.com/immigration/2025/03/12/guantanamo-ice-migrants-trump-deportations/" target="_blank">Washington Post</a>). $100K daily cost figure from court filings and congressional delegation accounts reported by <a href="https://www.npr.org/2025/09/12/nx-s1-5539821/guantanamo-migrants-water-deportations-ice" target="_blank">NPR</a>. The operation's legal status remains unresolved; ICE has not ruled out future transfers. Small numbers of Cuban nationals were transferred in late 2025 (IPTP).</p></div>
+      <div class="disc-block"><div class="disc-title">Removal Efficiency</div><p>The +7% removal figure compares total removals under Trump's second term (FY2025 + FY2026 YTD = 290,603) to Biden's FY2024 full-year removals, from <a href="https://tracreports.org/reports/767/" target="_blank">TRAC, Mar 2026</a>. This figure does not include voluntary departures or returns. TRAC notes the Trump administration continues to conceal most details about enforcement activities and costs.</p></div>
+      <div class="disc-block"><div class="disc-title">Last Updated / Live Data</div><p>Static document dated March 25, 2026. Will not auto-update. For current population: <a href="https://tracreports.org/immigration/quickfacts/" target="_blank">TRAC Immigration Quick Facts</a> (bi-weekly, when ICE complies). For facility network: <a href="https://www.freedomforimmigrants.org/map" target="_blank">Freedom for Immigrants map</a> (monthly). For warehouse tracking: <a href="https://immpolicytracking.org/policies/reported-ice-considers-buying-large-warehouses-to-expand-immigrant-detention-capacity/" target="_blank">Immigration Policy Tracking Project</a>.</p></div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function filterTable(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#main-table tbody tr').forEach(row => {
+    if (filter === 'all') { row.classList.remove('hidden'); return; }
+    const tags = row.getAttribute('data-filter') || '';
+    tags.includes(filter) ? row.classList.remove('hidden') : row.classList.add('hidden');
+  });
+}
+
+function animateCount(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const duration = 1800;
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const e = 1 - Math.pow(1 - p, 4);
+    el.textContent = prefix + Math.round(e * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function animateBars() {
+  document.querySelectorAll('.ratio-bar-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => { bar.style.width = w; }, 120);
+  });
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('[data-target]').forEach(animateCount);
+      animateBars();
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+
+const cb = document.querySelector('.compare-bar');
+if (cb) obs.observe(cb);
+</script>
+
+</div>
+
+<script>
+(function() {
+
+function filterTable(filter, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('#main-table tbody tr').forEach(row => {
+    if (filter === 'all') { row.classList.remove('hidden'); return; }
+    const tags = row.getAttribute('data-filter') || '';
+    tags.includes(filter) ? row.classList.remove('hidden') : row.classList.add('hidden');
+  });
+}
+
+function animateCount(el) {
+  const target = parseInt(el.dataset.target, 10);
+  const suffix = el.dataset.suffix || '';
+  const prefix = el.dataset.prefix || '';
+  const duration = 1800;
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const e = 1 - Math.pow(1 - p, 4);
+    el.textContent = prefix + Math.round(e * target) + suffix;
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function animateBars() {
+  document.querySelectorAll('.ratio-bar-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => { bar.style.width = w; }, 120);
+  });
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('[data-target]').forEach(animateCount);
+      animateBars();
+      obs.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+
+const cb = document.querySelector('.compare-bar');
+if (cb) obs.observe(cb);
+
+})();
+</script>
